@@ -4,7 +4,7 @@ FROM lsiobase/ubuntu:xenial
 ARG BUILD_DATE
 ARG VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="saarg"
+LABEL maintainer="nirvana777"
 
 # package versions
 ARG WEBGRAB_VER="2.0.0"
@@ -24,6 +24,9 @@ RUN \
 	cron \
 	libmono-system-data4.0-cil \
 	libmono-system-web4.0-cil \
+	libxml-dom-perl \
+	php \
+	php-curl \
 	mono-runtime \
 	unzip && \
  echo "**** install webgrabplus ****" && \
@@ -47,11 +50,43 @@ RUN \
  /tmp/ini.zip -L \
 	http://webgrabplus.com/sites/default/files/download/ini/SiteIniPack_current.zip && \
  unzip -q /tmp/ini.zip -d /defaults/ini/ && \
+ echo "**** install DeBaschdi EPGScripts ****" && \
+ curl -o \
+ /tmp/scripts.zip -L \
+	https://github.com/DeBaschdi/EPGScripts/archive/master.zip && \
+ unzip -q /tmp/scripts.zip -d /app/ && \
  echo "**** cleanup ****" && \
  rm -rf \
 	/tmp/* \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
+
+# add DeBaschdis files
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/International/horizon.tv.channels.xml /defaults/ini/siteini.pack/International/
+RUN chmod 644 /defaults/ini/siteini.pack/International/horizon.tv.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/International/horizon.tv.ini /defaults/ini/siteini.pack/International/
+RUN chmod 644 /defaults/ini/siteini.pack/International/horizon.tv.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvtoday.de.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvtoday.de.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvtoday.de.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvtoday.de.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvdigital.de.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvdigital.de.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvdigital.de.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvdigital.de.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvtv.de.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvtv.de.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/tvtv.de.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/tvtv.de.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/sky.de.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/sky.de.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/sky.de.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/sky.de.ini
+
+RUN chmod 777 /app/EPGScripts-master/genremapper/genremapper.pl
+RUN chmod -R 777 /app/EPGScripts-master/imdbmapper/
+RUN sed -i -e 17c'my $path= "/app/EPGScripts-master/imdbmapper" ;' /app/EPGScripts-master/imdbmapper/imdbmapper.pl
+RUN chmod 777 /app/EPGScripts-master/ratingmapper/ratingmapper.pl
 
 # copy files
 COPY root/ /
