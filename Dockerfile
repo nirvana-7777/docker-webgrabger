@@ -82,6 +82,14 @@ ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/s
 RUN chmod 644 /defaults/ini/siteini.pack/Germany/sky.de.channels.xml
 ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/sky.de.ini /defaults/ini/siteini.pack/Germany/
 RUN chmod 644 /defaults/ini/siteini.pack/Germany/sky.de.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/web.magentatv.de.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/web.magentatv.de.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/web.magentatv.de.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/web.magentatv.de.ini
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/xmltv.se.channels.xml /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/xmltv.se.channels.xml
+ADD https://raw.githubusercontent.com/DeBaschdi/webgrabplus-siteinipack/master/siteini.pack/Germany/xmltv.se.ini /defaults/ini/siteini.pack/Germany/
+RUN chmod 644 /defaults/ini/siteini.pack/Germany/xmltv.se.ini
 
 RUN chmod 777 /app/EPGScripts-master/genremapper/genremapper.pl
 RUN chmod -R 777 /app/EPGScripts-master/imdbmapper/
