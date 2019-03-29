@@ -4,7 +4,8 @@
 [[ ! -e /config/WebGrab++.config.xml ]] && \
 	cp /defaults/WebGrab++.config.xml /config/
 [[ ! -e /config/siteini.pack ]] && \
-	cp -R /defaults/ini/siteini.pack /config/
+	cp -R /defaults/ini/siteini.pack /config/ && \
+	sed -i -e 14c'url_index{url|http://$MAGENTA_URL/web_magentatv_de.php?channel=##channel##&date=|urldate|&time=##time##&type=1}' /config/siteini.pack/Germany/web.magentatv.de.ini
 
 # add cron file for running webgrab+plus
 [[ ! -e /config/wg-cron ]] && \
